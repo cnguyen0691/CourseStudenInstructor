@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>list</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+</head>
+<body>
+<div th:replace="base::nav"></div>
+<!--All CRUD operations in one form-->
+<h2 align="center">Course List</h2><br/>
+<br/>
+<table class="table" style="width:100%">
+    <tr>
+        <th sec:authorize="hasAuthority('ADMIN')">Select</th>
+        <th>Title</th>
+        <th>Instructor</th>
+        <th>Credits</th>
+        <th sec:authorize="hasAuthority('ADMIN')">Actions</th>
+    </tr>
+    <!--enhanced for loop-->
+    <tr th:each="course : ${courses}">
+        <td sec:authorize="hasAuthority('ADMIN')">
+            <input type="checkbox">
+        </td>
+        <td>
+            <a th:href="@{/detail/{id}(id=${course.id})}">[[${course.title}]]</a><!-- Read -->
+        </td>
+        <td th:text="${course.instructor}"></td>
+        <td th:text="${course.credit}"></td>
+
+        <td sec:authorize="hasAuthority('ADMIN')">
+            <!--<span th:if="${user_id == course.user.id}">
+                </span>-->
+            <a th:href="@{/update/{id}(id=${course.id})}">Edit</a>-<!-- Update -->
+            <a th:href="@{/delete/{id}(id=${course.id})}">Delete</a><!-- Delete -->
+        </td>
+
+    </tr>
+</table>
+<br/>
+<div th:replace="base::footer"></div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+</body>
+</html>

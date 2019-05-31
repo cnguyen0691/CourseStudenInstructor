@@ -1,10 +1,14 @@
 package com.example.courseinstructorstudent;
 
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Set;
 
 @Entity
 public class Course {
@@ -32,6 +36,9 @@ public class Course {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @OneToMany(mappedBy = "course", fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.REMOVE)
+    @Fetch(value = FetchMode.SUBSELECT)
+    private Set<Student> students;
 
     public Course() {
     }
@@ -90,5 +97,13 @@ public class Course {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Set<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(Set<Student> students) {
+        this.students = students;
     }
 }

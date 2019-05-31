@@ -19,6 +19,9 @@ public class HomeController {
     UserRepository userRepository;
 
     @Autowired
+    StudentRepository studentRepository;
+
+    @Autowired
     RoleRepository roleRepository;
 
     @Autowired
@@ -75,7 +78,7 @@ public class HomeController {
         return "list";
     }
 
-    @GetMapping("/add")
+    @GetMapping("/addcourse")
     public String courseForm(Model model) {
         model.addAttribute("course", new Course());
         return "courseform";
@@ -92,10 +95,47 @@ public class HomeController {
         return "redirect:/";
     }
 
+
+    @RequestMapping("/addstudent/{id}")
+    public String addStudent(@PathVariable("id") long id, Model model){
+       model.addAttribute("course", courseRepository.findById(id).get());
+    return "redirect:/addstudent";
+    }
+
+    @GetMapping("/addstudent")
+    public String addStudent(Model model, @ModelAttribute Course course){
+       model.addAttribute("student", new Student());
+       model.addAttribute("courses", courseRepository.findAll());
+       return "studentform";
+    }
+
+    @PostMapping("/processstudent")
+    public String processstudentform(@Valid Student student, BindingResult result){
+        if(result.hasErrors()){
+            return "studentform";
+        }
+        studentRepository.save(student);
+        return "redirect:/";
+    }
+
     @RequestMapping("/detail/{id}")
     public String showCourse(@PathVariable("id") long id, Model model) {
-        model.addAttribute("course", courseRepository.findById(id).get());
+       Course course = courseRepository.findById(id).get();
+        model.addAttribute("course", course);
+        model.addAttribute("students", studentRepository.findAllByCourse(course));
         return "show";
+    }
+    @RequestMapping("/enroll/{id}")
+    public String enrollCourse(@PathVariable("id") long id, Model model){
+        model.addAttribute("student", studentRepository.findById(id).get());
+        return "studentenrolled";
+    }
+    @RequestMapping("/student")
+    public String studentPage(Model model){
+        model.addAttribute("courses", courseRepository.findAll());
+        model.addAttribute("user", userService.getUser());
+
+        return "studentenrolled";
     }
 
     @RequestMapping("/update/{id}")

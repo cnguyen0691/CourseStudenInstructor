@@ -5,7 +5,7 @@
     <title>Show</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 <div th:replace="base::nav"></div>
@@ -30,12 +30,41 @@
             <td><span th:text="${course.credit}"></span><br/></td>
         </tr>
     </table>
+    <div class="row">
+        <div class="col-md-8">
+            <p th:href="@{/addstudent}"></p>
+
+            <p th:each="student: ${course.students}">
+            <li th:inline="text"><b>[[${student.name}]]: </b> [[${student.studentID}]]</li>
+            </p>
+        </div>
     <div sec:authorize="hasAuthority('ADMIN')">
         <a th:href="@{/update/{id}(id=${course.id})}">Edit</a> - <!-- Update -->
         <a th:href="@{/delete/{id}(id=${course.id})}">Delete</a>
     </div>
 </div>
-<br/>
+
+<!--    <div class="container ">-->
+    <!--        <div class="row justify-content-center">-->
+    <!--            <div style="text-align: center">-->
+    <!--                <h4 class="card-title text-center">-->
+    <!--                    <span th:text="${student.name + ' ' +  student.studentID}"></span>-->
+    <!--                </h4>-->
+    <!--                <p class="card-text"><strong>Course: </strong><span th:if="${student.course != null}"><span-->
+    <!--                        th:text="${student.course.title}"></span></span></p>-->
+    <!--                <p class="card-text"><strong>Name: </strong><span th:text="${student.name}"></span></p>-->
+    <!--                <p class="card-text"><strong>Student ID: </strong><span-->
+    <!--                        th:text="${student.studentID}"></span>-->
+    <!--                </p>-->
+    <!--                <div class="text-center">-->
+    <!--                    <a class="btn btn-warning" th:href="@{/update/{id}(id=${student.id})}">Update</a>-->
+    <!--                    <a class="btn btn-warning" th:href="@{/delete/{id}(id=${student.id})}">Delete</a>-->
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
+
+    <br/>
 <div th:replace="base::footer"></div>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

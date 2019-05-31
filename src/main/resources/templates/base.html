@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
->
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 <nav th:fragment="nav" class="navbar navbar-expand-lg navbar-light bg-light">
@@ -17,22 +17,19 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item dropdown" sec:authorize="isAuthenticated()">
-                <a aria-expanded="false"
-                   aria-haspopup="true"
-                   class="nav-link dropdown-toggle"
-                   data-toggle="dropdown"
-                   href="#"
-                   id="navbarDropdown"
-                   role="button">College <span
-                        th:text="${#authentication.name}"></span>
+            <li class="nav-item" sec:authorize="isAuthenticated()">
+                <a class="nav-link" href="#">College
+                    <span th:text="${#authentication.name}"></span>
                 </a>
             </li>
             <li class="nav-item active">
                 <a class="nav-link" href="/">Home</a>
             </li>
             <li class="nav-item" sec:authorize="isAuthenticated()">
-                <a class="nav-link" href="/add">Add A Course</a>
+                <a class="nav-link" href="/addcourse">Add A Course</a>
+            </li>
+            <li class="nav-item" sec:authorize="isAuthenticated()">
+                <a class="nav-link" href="/addstudent">Add Student</a>
             </li>
             <li class="nav-item" sec:authorize="hasAuthority('ADMIN')">
                 <a class="nav-link" href="/admin">Admin</a>
@@ -50,7 +47,7 @@
                 <a class="nav-link" href="/about">About Us</a>
             </li>
         </ul>
-    </div>v>
+    </div>
     </div>
 </nav>
 
